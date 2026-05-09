@@ -29,6 +29,59 @@
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        /* Tlačítko fakturace nahoře */
+        .billing-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .btn-billing {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-billing:hover {
+            background-color: #f1f5f9;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-green {
+            background-color: #22c55e;
+            box-shadow: 0 0 5px #22c55e;
+        }
+        
+        .status-green::after {
+            content: '✓';
+            color: white;
+            font-size: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .status-red {
+            background-color: #ef4444;
+            box-shadow: 0 0 5px #ef4444;
         }
 
         /* Nadpisy a texty */
@@ -138,7 +191,7 @@
         }
 
         .total-price {
-            color: #16a34a; /* Zelená */
+            color: #16a34a;
             font-size: 1.5rem;
             font-weight: bold;
             display: inline-block;
@@ -179,7 +232,6 @@
             transform: translateY(0);
         }
 
-        /* Sekce alternativních odkazů */
         .secondary-section h3 {
             font-size: 1.1rem;
             color: #333;
@@ -215,7 +267,7 @@
             line-height: 1;
         }
 
-        /* Překryvné okno (Modál) */
+        /* Překryvná okna (Modály) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -223,7 +275,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            display: none; /* Skryto ve výchozím stavu */
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -234,16 +286,12 @@
             background-color: white;
             padding: 30px;
             border-radius: 12px;
-            max-width: 400px;
-            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-content p {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            color: #333;
         }
 
         .btn-close {
@@ -256,29 +304,171 @@
             background-color: #1e293b;
         }
 
-        /* Responzivita pro velmi malé obrazovky */
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #0056b3;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Fakturace UI */
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .btn-back {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-right: 15px;
+            color: #0056b3;
+            padding: 5px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+
+        .order-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .order-btn:hover { background-color: #f1f5f9; }
+        .order-btn-title { font-weight: bold; font-size: 1.1rem; color: #0f172a; margin-bottom: 5px; }
+        .order-btn-date { font-size: 0.85rem; color: #64748b; }
+
+        .divider-line {
+            text-align: center;
+            border-bottom: 2px dashed #cbd5e1;
+            line-height: 0.1em;
+            margin: 30px 0 20px;
+        }
+        .divider-line span {
+            background: #fff;
+            padding: 0 10px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Detaily objednávky */
+        .detail-field {
+            margin-bottom: 20px;
+        }
+        .detail-field label {
+            display: block;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+        .detail-input-btn {
+            width: 100%;
+            text-align: left;
+            padding: 12px;
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            min-height: 45px;
+            font-size: 1rem;
+            color: #0f172a;
+        }
+        .detail-input-btn:hover { border-color: #94a3b8; }
+        .detail-input-btn:empty::before {
+            content: "Klikni pro doplnění (a poté se vrať zpět)...";
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        /* Editace */
+        .edit-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        .edit-input:focus { border-color: #0056b3; }
+
+        .edit-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-save { background-color: #22c55e; color: white; flex: 1; }
+        .btn-save:hover:not(:disabled) { background-color: #16a34a; }
+        .btn-save:disabled { background-color: #a7f3d0; cursor: not-allowed; }
+        .btn-cancel { background-color: #94a3b8; color: white; flex: 1; }
+        .btn-cancel:hover { background-color: #64748b; }
+
+        .validation-rules {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .rule { display: flex; align-items: center; margin-bottom: 5px; color: #ef4444; }
+        .rule.valid { color: #22c55e; }
+        .rule::before { content: '❌'; margin-right: 8px; font-size: 0.8rem; }
+        .rule.valid::before { content: '✓'; }
+
         @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-            h1 {
-                font-size: 1.3rem;
-            }
-            .btn-main {
-                font-size: 1.1rem;
-            }
-            .price-text {
-                font-size: 0.9rem;
-            }
-            .total-price {
-                font-size: 1.3rem;
-            }
+            .container { padding: 20px; }
+            h1 { font-size: 1.3rem; }
+            .btn-main { font-size: 1.1rem; }
+            .price-text { font-size: 0.9rem; }
+            .total-price { font-size: 1.3rem; }
         }
     </style>
 </head>
 <body>
 
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <h2>Ukládám do databáze...</h2>
+    </div>
+
     <div class="container">
+        
+        <div class="billing-header">
+            <button class="btn-billing" id="btn-billing">
+                Fakturace <span class="status-indicator status-green" id="billing-status"></span>
+            </button>
+        </div>
+
         <h1>Koupit wrap 10 ks Verbatim CD-R na <a href="https://www.bscom.cz" target="_blank">bscom.cz</a> via NTS</h1>
         
         <hr>
@@ -327,78 +517,155 @@
     </div>
 
     <div class="modal-overlay" id="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="text-align: center;">
             <p>Pokud nic z předchozích možností nefunguje, tak pravděpodobně bscom produkt přesunuli a přejmenovali. Obrať se prosím na mě pro vyřešení problému, podívám se na to!</p>
             <button class="btn btn-close" id="btn-close-modal">Zavřít</button>
         </div>
     </div>
 
-    <script>
+    <div class="modal-overlay" id="modal-orders-list">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="btn-back" id="btn-back-to-main">←</button>
+                <h2>Objednávky a fakturace</h2>
+            </div>
+            <div id="orders-incomplete-list"></div>
+            <h2 class="divider-line"><span>Dokončené objednávky</span></h2>
+            <div id="orders-complete-list"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-order-detail">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="btn-back" id="btn-back-to-list">←</button>
+                <div style="display:flex; flex-direction:column">
+                    <h2 id="detail-title-qty">Počet kusů: X</h2>
+                    <span style="font-size:0.85rem; color:#64748b" id="detail-title-date">Datum a čas: Y</span>
+                </div>
+            </div>
+            
+            <div class="detail-field">
+                <label>Číslo objednávky:</label>
+                <div class="detail-input-btn" id="btn-edit-orderno"></div>
+            </div>
+            <div class="detail-field">
+                <label>Číslo faktury:</label>
+                <div class="detail-input-btn" id="btn-edit-invoiceno"></div>
+            </div>
+            <div class="detail-field">
+                <label>Odkaz na fakturu:</label>
+                <div class="detail-input-btn" id="btn-edit-link"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-edit">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 15px;" id="edit-title">Úprava</h3>
+            <input type="text" class="edit-input" id="edit-input" autocomplete="off">
+            
+            <div class="validation-rules" id="validation-rules" style="display: none;">
+                <div class="rule" id="rule-https">Odkaz musí být https://</div>
+                <div class="rule" id="rule-domain">Odkaz musí být screen faktury nebo nahrátá kopie faktury z e-mailu na GOOGLE DISK</div>
+            </div>
+
+            <div class="edit-actions">
+                <button class="btn btn-cancel" id="btn-edit-cancel">Zrušit</button>
+                <button class="btn btn-save" id="btn-edit-save">Uložit</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase funkcí
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, push, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // Konfigurace Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDdC6RSU08MjH0GoREf6WJuWXUtrQ2Y-_I",
+            authDomain: "bscom-objednavky.firebaseapp.com",
+            databaseURL: "https://bscom-objednavky-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "bscom-objednavky",
+            storageBucket: "bscom-objednavky.firebasestorage.app",
+            messagingSenderId: "1009724650256",
+            appId: "1:1009724650256:web:e93203e9280f6081fbeb95"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
         // =======================================================
         // --- Nastavení ---
-        // Zde může admin jednoduše měnit proměnné pro výpočty.
         // =======================================================
-        const CENA_ZA_KUS = 175;     // Cena za jeden kus
-        const CENA_DOPRAVY = 89;     // Odhadovaná cena dopravy
-        // =======================================================
+        const CENA_ZA_KUS = 175;
+        const CENA_DOPRAVY = 89;
 
-
-        // Načtení DOM elementů do proměnných
+        // Načtení DOM elementů (Původní)
         const inputQty = document.getElementById('qty-input');
         const btnMinus = document.getElementById('btn-minus');
         const btnPlus = document.getElementById('btn-plus');
-        
         const valX = document.getElementById('val-x');
         const valY = document.getElementById('val-y');
         const valShipping = document.getElementById('val-shipping');
         const valZ = document.getElementById('val-z');
-        
         const btnAddToCart = document.getElementById('btn-add-to-cart');
         const btnOpenModal = document.getElementById('btn-open-modal');
         const btnCloseModal = document.getElementById('btn-close-modal');
-        const modal = document.getElementById('modal');
+        const modalError = document.getElementById('modal');
 
-        // Inicializace zobrazení ceny dopravy podle nastavení
+        // Načtení DOM elementů (Nové)
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const btnBilling = document.getElementById('btn-billing');
+        const billingStatus = document.getElementById('billing-status');
+        
+        const modalOrdersList = document.getElementById('modal-orders-list');
+        const btnBackToMain = document.getElementById('btn-back-to-main');
+        const ordersIncompleteList = document.getElementById('orders-incomplete-list');
+        const ordersCompleteList = document.getElementById('orders-complete-list');
+
+        const modalOrderDetail = document.getElementById('modal-order-detail');
+        const btnBackToList = document.getElementById('btn-back-to-list');
+        const detailTitleQty = document.getElementById('detail-title-qty');
+        const detailTitleDate = document.getElementById('detail-title-date');
+        const btnEditOrderNo = document.getElementById('btn-edit-orderno');
+        const btnEditInvoiceNo = document.getElementById('btn-edit-invoiceno');
+        const btnEditLink = document.getElementById('btn-edit-link');
+
+        const modalEdit = document.getElementById('modal-edit');
+        const editTitle = document.getElementById('edit-title');
+        const editInput = document.getElementById('edit-input');
+        const btnEditCancel = document.getElementById('btn-edit-cancel');
+        const btnEditSave = document.getElementById('btn-edit-save');
+        const validationRules = document.getElementById('validation-rules');
+        const ruleHttps = document.getElementById('rule-https');
+        const ruleDomain = document.getElementById('rule-domain');
+
+        // Stavová data
+        let allOrders = {};
+        let currentOrderId = null;
+        let currentEditField = null; // 'orderno', 'invoiceno', 'link'
+
         valShipping.textContent = CENA_DOPRAVY;
 
-        // Funkce pro přepočet cen a aktualizaci textů
         function recalculate() {
             let qty = parseInt(inputQty.value, 10);
-            
-            // Ochrana před neplatnými čísly během logiky
-            if (isNaN(qty) || qty < 1) {
-                qty = 1;
-            }
-
-            // Výpočet
+            if (isNaN(qty) || qty < 1) qty = 1;
             const priceProducts = qty * CENA_ZA_KUS;
             const priceTotal = priceProducts + CENA_DOPRAVY;
-
-            // Propsání do HTML
             valX.textContent = qty;
             valY.textContent = priceProducts;
             valZ.textContent = priceTotal;
         }
 
-        // Zpracování vpisování do textového pole
         inputQty.addEventListener('input', function(e) {
-            // Regulární výraz odstraní všechno, co není číslo (\D)
             let currentVal = this.value.replace(/\D/g, '');
-
-            // Pokud uživatel napíše '0', okamžitě se přepíše na '1'
-            if (currentVal === '0') {
-                currentVal = '1';
-            }
-
+            if (currentVal === '0') currentVal = '1';
             this.value = currentVal;
-
-            // Přepočítáme pouze pokud pole není úplně prázdné (aby šlo např. smazat číslo a napsat nové)
-            if (currentVal !== '') {
-                recalculate();
-            }
+            if (currentVal !== '') recalculate();
         });
 
-        // Kontrola pole po opuštění (pokud by jej uživatel smazal úplně a klikl jinam)
         inputQty.addEventListener('blur', function() {
             if (this.value === '' || parseInt(this.value, 10) < 1) {
                 this.value = '1';
@@ -406,7 +673,6 @@
             }
         });
 
-        // Tlačítko MÍNUS
         btnMinus.addEventListener('click', function() {
             let qty = parseInt(inputQty.value, 10) || 1;
             if (qty > 1) {
@@ -416,7 +682,6 @@
             }
         });
 
-        // Tlačítko PLUS
         btnPlus.addEventListener('click', function() {
             let qty = parseInt(inputQty.value, 10) || 1;
             qty++;
@@ -424,35 +689,219 @@
             recalculate();
         });
 
-        // Otevření hlavního odkazu košíku s dynamickým počtem
+        // =======================================================
+        // --- FUNKCE A (Uložení do DB před přesměrováním) ---
+        // =======================================================
         btnAddToCart.addEventListener('click', function() {
             let currentQty = inputQty.value || '1';
-            
-            // Šablona odkazu (bez mezer kolem proměnné, přesně jak bylo požadováno)
             let targetUrl = `https://www.bscom.cz/ai-asistent/?initialMessage=Vlo%C5%BE%20mi%20do%20ko%C5%A1%C3%ADku%20${currentQty}%20kusy%20tohoto%20produktu%20-%20k%C3%B3d:%200743238&imc=0`;
             
-            // Otevření na nové kartě
-            window.open(targetUrl, '_blank');
+            loadingOverlay.style.display = 'flex';
+
+            const now = new Date();
+            const datumStr = `${now.getDate()}.${now.getMonth() + 1}.${now.getFullYear()}`;
+            const casStr = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+            const ordersRef = ref(db, 'Objednavky');
+            const newOrderRef = push(ordersRef);
+
+            set(newOrderRef, {
+                pocet_kusu: currentQty,
+                datum: datumStr,
+                cas: casStr,
+                timestamp: now.getTime(),
+                objednavka_cislo: "",
+                faktura: "",
+                faktura_odkaz: ""
+            }).then(() => {
+                loadingOverlay.style.display = 'none';
+                window.open(targetUrl, '_blank');
+            }).catch((error) => {
+                loadingOverlay.style.display = 'none';
+                alert("Chyba při ukládání: " + error);
+            });
         });
 
-        // Otevření překryvného okna (Modálu)
-        btnOpenModal.addEventListener('click', function() {
-            modal.style.display = 'flex';
-        });
+        // Původní modál
+        btnOpenModal.addEventListener('click', () => modalError.style.display = 'flex');
+        btnCloseModal.addEventListener('click', () => modalError.style.display = 'none');
+        modalError.addEventListener('click', (e) => { if (e.target === modalError) modalError.style.display = 'none'; });
 
-        // Zavření překryvného okna
-        btnCloseModal.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
+        // =======================================================
+        // --- FUNKCE B (Fakturace a DB onValue) ---
+        // =======================================================
 
-        // Zavření modálu i při kliknutí do tmavé oblasti mimo bílé okno
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
+        const ordersRef = ref(db, 'Objednavky');
+        onValue(ordersRef, (snapshot) => {
+            const data = snapshot.val();
+            allOrders = data || {};
+            
+            let isComplete = true;
+            let ordersArray = [];
+
+            for (const key in allOrders) {
+                const order = allOrders[key];
+                order.id = key;
+                ordersArray.push(order);
+                
+                if (!order.objednavka_cislo || !order.faktura || !order.faktura_odkaz) {
+                    isComplete = false;
+                }
+            }
+
+            // Indikátor puntíku
+            if (Object.keys(allOrders).length === 0 || isComplete) {
+                billingStatus.className = 'status-indicator status-green';
+            } else {
+                billingStatus.className = 'status-indicator status-red';
+            }
+
+            // Vykreslení seznamu, pokud je okno otevřené
+            renderOrdersList(ordersArray);
+            
+            // Pokud je otevřený detail aktuální objednávky, zaktualizuj ho
+            if (currentOrderId && modalOrderDetail.style.display === 'flex') {
+                updateDetailView();
             }
         });
 
-        // Prvotní výpočet při načtení stránky
+        function renderOrdersList(ordersArray) {
+            ordersIncompleteList.innerHTML = '';
+            ordersCompleteList.innerHTML = '';
+
+            // Seřadit sestupně podle timestamp (nejnovější nahoře, napříč roky)
+            ordersArray.sort((a, b) => b.timestamp - a.timestamp);
+
+            ordersArray.forEach(order => {
+                const btn = document.createElement('div');
+                btn.className = 'order-btn';
+                btn.innerHTML = `
+                    <div class="order-btn-title">Počet kusů: ${order.pocet_kusu}</div>
+                    <div class="order-btn-date">Datum a čas: ${order.datum} ${order.cas}</div>
+                `;
+                btn.onclick = () => openOrderDetail(order.id);
+
+                if (order.objednavka_cislo && order.faktura && order.faktura_odkaz) {
+                    ordersCompleteList.appendChild(btn);
+                } else {
+                    ordersIncompleteList.appendChild(btn);
+                }
+            });
+
+            if (ordersCompleteList.innerHTML === '') ordersCompleteList.innerHTML = '<p style="text-align:center; color:#94a3b8">Zatím žádné dokončené objednávky.</p>';
+            if (ordersIncompleteList.innerHTML === '') ordersIncompleteList.innerHTML = '<p style="text-align:center; color:#94a3b8">Vše hotovo.</p>';
+        }
+
+        // Navigace Fakturace
+        btnBilling.addEventListener('click', () => {
+            modalOrdersList.style.display = 'flex';
+        });
+
+        btnBackToMain.addEventListener('click', () => {
+            modalOrdersList.style.display = 'none';
+        });
+
+        // Otevření detailu
+        function openOrderDetail(id) {
+            currentOrderId = id;
+            updateDetailView();
+            modalOrdersList.style.display = 'none';
+            modalOrderDetail.style.display = 'flex';
+        }
+
+        btnBackToList.addEventListener('click', () => {
+            modalOrderDetail.style.display = 'none';
+            modalOrdersList.style.display = 'flex';
+        });
+
+        function updateDetailView() {
+            const order = allOrders[currentOrderId];
+            if(!order) return;
+            
+            detailTitleQty.textContent = `Počet kusů: ${order.pocet_kusu}`;
+            detailTitleDate.textContent = `Datum a čas: ${order.datum} ${order.cas}`;
+            
+            btnEditOrderNo.textContent = order.objednavka_cislo || '';
+            btnEditInvoiceNo.textContent = order.faktura || '';
+            btnEditLink.textContent = order.faktura_odkaz || '';
+        }
+
+        // Editace polí
+        btnEditOrderNo.addEventListener('click', () => openEditModal('orderno'));
+        btnEditInvoiceNo.addEventListener('click', () => openEditModal('invoiceno'));
+        btnEditLink.addEventListener('click', () => openEditModal('link'));
+
+        function openEditModal(fieldType) {
+            currentEditField = fieldType;
+            const order = allOrders[currentOrderId];
+            validationRules.style.display = 'none';
+            btnEditSave.disabled = false;
+            editInput.value = '';
+
+            if (fieldType === 'orderno') {
+                editTitle.textContent = "Zadat číslo objednávky";
+                editInput.value = order.objednavka_cislo || '';
+            } else if (fieldType === 'invoiceno') {
+                editTitle.textContent = "Zadat číslo faktury";
+                if (order.faktura) {
+                    editInput.value = order.faktura;
+                } else {
+                    // Automatické doplnění aktuálního roku
+                    const year = new Date().getFullYear().toString().slice(-2);
+                    editInput.value = year;
+                }
+            } else if (fieldType === 'link') {
+                editTitle.textContent = "Odkaz na fakturu";
+                editInput.value = order.faktura_odkaz || '';
+                validationRules.style.display = 'block';
+                validateLink(); // Initial check
+            }
+
+            modalOrderDetail.style.display = 'none';
+            modalEdit.style.display = 'flex';
+            editInput.focus();
+        }
+
+        btnEditCancel.addEventListener('click', () => {
+            modalEdit.style.display = 'none';
+            modalOrderDetail.style.display = 'flex';
+        });
+
+        // Validace při psaní v edit okně
+        editInput.addEventListener('input', function() {
+            if (currentEditField === 'orderno') {
+                // Pouze čísla
+                this.value = this.value.replace(/\D/g, '');
+            } else if (currentEditField === 'link') {
+                validateLink();
+            }
+        });
+
+        function validateLink() {
+            const val = editInput.value;
+            let okHttps = val.startsWith('https://');
+            let okDomain = val.includes('docs.google.com') || val.includes('drive.google.com');
+
+            if (okHttps) { ruleHttps.classList.add('valid'); } else { ruleHttps.classList.remove('valid'); }
+            if (okDomain) { ruleDomain.classList.add('valid'); } else { ruleDomain.classList.remove('valid'); }
+
+            btnEditSave.disabled = !(okHttps && okDomain);
+        }
+
+        // Uložení
+        btnEditSave.addEventListener('click', () => {
+            const updateData = {};
+            if (currentEditField === 'orderno') updateData.objednavka_cislo = editInput.value;
+            if (currentEditField === 'invoiceno') updateData.faktura = editInput.value;
+            if (currentEditField === 'link') updateData.faktura_odkaz = editInput.value;
+
+            const specificOrderRef = ref(db, 'Objednavky/' + currentOrderId);
+            update(specificOrderRef, updateData).then(() => {
+                modalEdit.style.display = 'none';
+                modalOrderDetail.style.display = 'flex';
+            });
+        });
+
         recalculate();
     </script>
 </body>
