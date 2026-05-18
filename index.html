@@ -477,7 +477,7 @@
         
         <hr>
 
-        <p class="question">Kolik kusů wrapu CD-R Verbatim (číslo SN 0743238) objednat?</p>
+        <p class="question">Kolik kusů wrapu CD-R Verbatim (číslo SN 0743238) objednat? Zadat počet zde a po potvrzení prvním tlačítkem vložit takový počet kusů do košíku na bscom.cz...</p>
         
         <div class="quantity-control">
             <button class="btn-qty" id="btn-minus" type="button">−</button>
@@ -494,7 +494,7 @@
         </div>
 
         <button class="btn btn-main" id="btn-add-to-cart">
-            Vložit do košíku na bscom.cz <span class="arrow">&rarr;</span>
+            Přejít k objednávce na bscom.cz <span class="arrow">&rarr;</span>
         </button>
 
         <hr>
@@ -510,8 +510,8 @@
                 Zobrazit na bscom.cz <span class="arrow">&rarr;</span>
             </a>
             
-            <a href="https://www.bscom.cz/ai-asistent/?initialMessage=Najdi%20produkt%20pod%20k%C3%B3dem%20na%20eshopu%20a%20dej%20mi%20p%C5%99%C3%ADm%C3%BD%20odkkaz%20-%20k%C3%B3d:%200743238&imc=0" target="_blank" class="btn btn-secondary">
-                Vyhledat a prověřit a dát odkaz <span class="arrow">&rarr;</span>
+            <a href="https://www.bscom.cz/ai-asistent/?initialMessage=0743238&imh=9470BD1C9FDC409B60D71D6AFCAB02E0&imc=0" target="_blank" class="btn btn-secondary">
+                Zkusit AI asistenta <span class="arrow">&rarr;</span>
             </a>
 
             <button class="btn btn-grey" id="btn-open-modal">
@@ -698,7 +698,7 @@
         // =======================================================
         btnAddToCart.addEventListener('click', function() {
             let currentQty = inputQty.value || '1';
-            let targetUrl = `https://www.bscom.cz/ai-asistent/?initialMessage=Vlo%C5%BE%20mi%20do%20ko%C5%A1%C3%ADku%20${currentQty}%20kusy%20tohoto%20produktu%20-%20k%C3%B3d:%200743238&imc=0`;
+            let targetUrl = `https://www.bscom.cz/media-verbatim-cd-r-700mb-52x-wrap-10-ks-43725_d743238/?sti=2734924`;
             
             loadingOverlay.style.display = 'flex';
 
